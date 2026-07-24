@@ -1,18 +1,432 @@
 /**
   |============================
-  | include css partials with
-  | default @import url()
+  | CSS imports
   |============================
 */
-/* Common styles */
+
 @import url('./reset.css');
 @import url('./base.css');
-@import url('./container.css');
-@import url('./animations.css');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap');
 
-/* Sections style */
-@import url('./header.css');
-@import url('./vite-promo.css');
-@import url('./badges.css');
-@import url('./back-link.css');
-@import url('./footer.css');
+/**
+  |============================
+  | Variables
+  |============================
+*/
+
+:root {
+  --font-family: 'Montserrat', sans-serif;
+  --primary-color: #4e75ff;
+  --primary-hover-color: #6c8cff;
+  --text-color: #2e2f42;
+  --border-color: #808080;
+  --error-color: #ef4040;
+  --error-border-color: #ffbebe;
+}
+
+/**
+  |============================
+  | General styles
+  |============================
+*/
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-family);
+  color: var(--text-color);
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 32px;
+}
+
+/**
+  |============================
+  | Search form
+  |============================
+*/
+
+.form {
+  margin-top: 36px;
+}
+
+.form input {
+  padding: 8px 16px;
+
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+
+  background-color: #fff;
+
+  font-family: var(--font-family);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.5;
+  letter-spacing: 0.04em;
+  color: var(--text-color);
+
+  transition: border-color 250ms ease;
+}
+
+.form input:hover {
+  border-color: #000;
+}
+
+.form input:focus {
+  border-color: var(--primary-color);
+  outline: none;
+}
+
+.form input:focus-visible {
+  border-color: var(--primary-color);
+  outline: 2px solid rgb(78 117 255 / 25%);
+  outline-offset: 2px;
+}
+
+.form button {
+  padding: 8px 16px;
+
+  border: none;
+  border-radius: 8px;
+
+  background-color: var(--primary-color);
+
+  font-family: var(--font-family);
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.5;
+  letter-spacing: 0.04em;
+  color: #fff;
+
+  cursor: pointer;
+
+  transition: background-color 250ms ease;
+}
+
+.form button:hover,
+.form button:focus-visible {
+  background-color: var(--primary-hover-color);
+}
+
+.form button:focus-visible {
+  outline: 2px solid var(--text-color);
+  outline-offset: 2px;
+}
+
+/**
+  |============================
+  | Loader
+  |============================
+*/
+
+.loader {
+  --color-1: #fffb00;
+  --color-2: #0077ff;
+  --size: 1px;
+
+  position: relative;
+
+  display: none;
+
+  width: calc(48 * var(--size));
+  height: calc(48 * var(--size));
+
+  border-radius: 50%;
+
+  animation: rotate 1s linear infinite;
+}
+
+.loader::before,
+.loader::after {
+  position: absolute;
+  inset: 0;
+
+  box-sizing: border-box;
+
+  border: calc(5 * var(--size)) solid var(--color-1);
+  border-radius: 50%;
+
+  content: '';
+
+  animation: prixClipFix 2s linear infinite;
+}
+
+.loader::after {
+  inset: calc(6 * var(--size));
+
+  border-color: var(--color-2);
+
+  animation:
+    prixClipFix 2s linear infinite,
+    rotate 0.5s linear infinite reverse;
+}
+
+.showLoader {
+  display: block;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes prixClipFix {
+  0% {
+    clip-path: polygon(50% 50%, 0 0, 0 0, 0 0, 0 0, 0 0);
+  }
+
+  25% {
+    clip-path: polygon(50% 50%, 0 0, 100% 0, 100% 0, 100% 0, 100% 0);
+  }
+
+  50% {
+    clip-path: polygon(50% 50%, 0 0, 100% 0, 100% 100%, 100% 100%, 100% 100%);
+  }
+
+  75% {
+    clip-path: polygon(50% 50%, 0 0, 100% 0, 100% 100%, 0 100%, 0 100%);
+  }
+
+  100% {
+    clip-path: polygon(50% 50%, 0 0, 100% 0, 100% 100%, 0 100%, 0 0);
+  }
+}
+
+/**
+  |============================
+  | Gallery
+  |============================
+*/
+
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+
+  width: 100%;
+  max-width: 1128px;
+  padding: 0 16px;
+}
+
+.gallery .cards {
+  width: calc((100% - 48px) / 3);
+
+  overflow: hidden;
+
+  border: 1px solid var(--border-color);
+}
+
+.cards a {
+  display: block;
+}
+
+.cards img {
+  display: block;
+
+  width: 100%;
+  height: 200px;
+
+  object-fit: cover;
+}
+
+/**
+  |============================
+  | Image information
+  |============================
+*/
+
+.image-info {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  padding: 4px 25px 4px 20px;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.info-label {
+  font-family: var(--font-family);
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 1.33;
+  letter-spacing: 0.04em;
+  color: var(--text-color);
+}
+
+.info-value {
+  font-family: var(--font-family);
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 2;
+  letter-spacing: 0.04em;
+  color: var(--text-color);
+}
+
+/**
+  |============================
+  | iziToast error notification
+  |============================
+*/
+
+.custom-error-toast {
+  position: relative !important;
+
+  width: 432px !important;
+  min-height: 64px !important;
+  padding: 20px 56px 20px 58px !important;
+
+  border: none !important;
+  border-bottom: 2px solid var(--error-border-color) !important;
+  border-radius: 4px !important;
+
+  background-color: var(--error-color) !important;
+  box-shadow: none !important;
+}
+
+.custom-error-toast::after {
+  display: none !important;
+}
+
+.custom-error-toast .iziToast-body {
+  display: flex !important;
+  align-items: center !important;
+
+  min-height: 24px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.custom-error-toast .iziToast-body .iziToast-title {
+  display: none !important;
+}
+
+.custom-error-toast .iziToast-texts {
+  min-width: 0 !important;
+  margin: 0 !important;
+}
+
+.custom-error-toast .iziToast-body .iziToast-message {
+  margin: 0 !important;
+  padding: 0 !important;
+
+  font-family: var(--font-family) !important;
+  font-weight: 400 !important;
+  font-size: 16px !important;
+  line-height: 1.5 !important;
+  letter-spacing: 0.03em !important;
+  color: #fff !important;
+}
+
+.custom-error-toast .iziToast-icon {
+  position: absolute !important;
+  top: 50% !important;
+  left: -40px !important;
+
+  width: 24px !important;
+  height: 24px !important;
+  margin: 0 !important;
+
+  transform: translateY(-50%) !important;
+
+  filter: brightness(0) invert(1) !important;
+  opacity: 1 !important;
+}
+
+.custom-error-toast .iziToast-close {
+  position: absolute !important;
+  top: 50% !important;
+  right: 16px !important;
+
+  width: 24px !important;
+  height: 24px !important;
+  padding: 0 !important;
+
+  transform: translateY(-50%) !important;
+
+  background-position: center !important;
+  background-size: 14px !important;
+
+  filter: brightness(0) invert(1) !important;
+  opacity: 1 !important;
+}
+
+.custom-error-toast .iziToast-progressbar {
+  height: 2px !important;
+
+  background-color: transparent !important;
+}
+
+.custom-error-toast .iziToast-progressbar > div {
+  background-color: var(--error-border-color) !important;
+}
+
+/**
+  |============================
+  | Responsive styles
+  |============================
+*/
+
+@media screen and (max-width: 767px) {
+  .form {
+    display: flex;
+    gap: 8px;
+
+    width: calc(100% - 32px);
+  }
+
+  .form input {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .form button {
+    flex-shrink: 0;
+  }
+
+  .gallery .cards {
+    width: 100%;
+  }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1157px) {
+  .gallery .cards {
+    width: calc((100% - 24px) / 2);
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .custom-error-toast {
+    width: calc(100vw - 32px) !important;
+    min-height: 64px !important;
+    padding: 16px 48px 16px 54px !important;
+  }
+
+  .custom-error-toast .iziToast-icon {
+    left: -35px !important;
+  }
+
+  .custom-error-toast .iziToast-close {
+    right: 12px !important;
+  }
+
+  .custom-error-toast .iziToast-body .iziToast-message {
+    font-size: 14px !important;
+  }
+}
